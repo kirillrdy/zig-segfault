@@ -9,12 +9,12 @@ pub fn main() !void {
     router.get("/", makeHandler(home), .{});
 }
 
-fn makeHandler(func: fn (comptime []const u8, anytype) anyerror!void) fn (*httpz.Request, *httpz.Response) anyerror!void {
+fn makeHandler(func: fn (anytype) anyerror!void) fn (*httpz.Request, *httpz.Response) anyerror!void {
     return struct {
         fn handler(_: *httpz.Request, _: *httpz.Response) !void {
-            try func("", "");
+            try func("");
         }
     }.handler;
 }
 
-fn home(comptime _: []const u8, _: anytype) !void {}
+fn home(_: anytype) !void {}
